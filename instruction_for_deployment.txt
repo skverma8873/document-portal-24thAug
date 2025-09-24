@@ -33,3 +33,4 @@ skv
 added access keys in github secrets
 again added keys
 CREATED THE SERVICE IN CLUSTER
+created the service with correct name
