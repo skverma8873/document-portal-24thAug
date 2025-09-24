@@ -101,7 +101,7 @@ Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: document-portal-cluster
+      ClusterName: document-portal-cluster-skv
 
   ### ECS Execution Role with Secrets + Logs
   ECSExecutionRole:
