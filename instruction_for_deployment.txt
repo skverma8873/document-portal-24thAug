@@ -31,3 +31,4 @@ http:/<your_public_ip>:8080
 search for cloud watch->click on log groups --> check with your running task id --> then open the log for the same task id
 skv
 added access keys in github secrets
+again added keys
