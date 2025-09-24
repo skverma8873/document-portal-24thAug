@@ -1,4 +1,9 @@
-# Project Setup Guide
+# Document Portal - Project Setup Guide
+
+## Status: ECS Service Configured ✅
+- ECS service created manually
+- GitHub Actions CI/CD pipeline configured  
+- Ready for automated deployments
 
 ## Create Project Folder and Environment Setup
 
