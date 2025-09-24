@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Minimal ECS Service and Task Definition for Document Portal
+
+Parameters:
+  ImageUrl:
+    Type: String
+    Description: ECR Image URI to use for container
+    Default: "478565410603.dkr.ecr.us-east-1.amazonaws.com/skvdocumentportal:latest"
+
+Resources:
+  ### ECS Task Definition
+  ECSTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: document-portal-task
+      Cpu: "1024"
+      Memory: "8192"
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: arn:aws:iam::478565410603:role/ecsTaskExecutionRole
+      ContainerDefinitions:
+        - Name: document-portal-container
+          Image: !Ref ImageUrl
+          Essential: true
+          PortMappings:
+            - ContainerPort: 8080
+          Environment:
+            - Name: LANGCHAIN_PROJECT
+              Value: DOCUMENT PORTAL
+          Secrets:
+            - Name: GROQ_API_KEY
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
+            - Name: HF_TOKEN
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
+            - Name: GOOGLE_API_KEY
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
+            - Name: LANGCHAIN_API_KEY
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/document-portal-task
+              awslogs-region: us-east-1
+              awslogs-stream-prefix: ecs
+              awslogs-create-group: "true"
+
+  ### ECS Service (only if cluster exists)
+  ECSService:
+    Type: AWS::ECS::Service
+    Properties:
+      ServiceName: document-portal-service
+      Cluster: document-portal-cluster-skv
+      LaunchType: FARGATE
+      DesiredCount: 1
+      TaskDefinition: !Ref ECSTaskDefinition
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets:
+            - subnet-0123456789abcdef0  # Replace with your subnet ID
+            - subnet-0123456789abcdef1  # Replace with your subnet ID
+          SecurityGroups:
+            - sg-0123456789abcdef0      # Replace with your security group ID
+
+Outputs:
+  TaskDefinitionArn:
+    Value: !Ref ECSTaskDefinition
+    Description: ARN of the ECS Task Definition

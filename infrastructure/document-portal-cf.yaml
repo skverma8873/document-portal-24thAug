@@ -1,4 +1,14 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/awslabs/goformation/master/schema  ### ECS Cluster
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: document-portal-cluster-skv
+
+  ### ECS Execution Role with Secrets + Logs
+  ECSExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ecsTaskExecutionRoletion.schema.json
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Full ECS + ECR + VPC Infra for Document Portal with secrets and logging
 
@@ -101,13 +111,13 @@ Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: document-portal-cluster-skv
+      ClusterName: !Sub "${AWS::StackName}-cluster"
 
   ### ECS Execution Role with Secrets + Logs
   ECSExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: ecsTaskExecutionRole
+      RoleName: !Sub "${AWS::StackName}-execution-role"
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
