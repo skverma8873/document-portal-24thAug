@@ -25,7 +25,7 @@ Resources:
   MyECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: documentportal
+      RepositoryName: skvdocumentportal
       ImageScanningConfiguration:
         ScanOnPush: true
       ImageTagMutability: MUTABLE
@@ -147,7 +147,7 @@ Resources:
   ECSTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: documentportaltd
+      Family: document-portal-task
       Cpu: "1024"
       Memory: "8192"
       NetworkMode: awsvpc
@@ -165,17 +165,17 @@ Resources:
               Value: DOCUMENT PORTAL
           Secrets:
             - Name: GROQ_API_KEY
-              ValueFrom: arn:aws:secretsmanager:us-east-1:685057748560:secret:GROQ_API_KEY
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
             - Name: HF_TOKEN
-              ValueFrom: arn:aws:secretsmanager:us-east-1:685057748560:secret:HF_TOKEN
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
             - Name: GOOGLE_API_KEY
-              ValueFrom: arn:aws:secretsmanager:us-east-1:685057748560:secret:GOOGLE_API_KEY
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
             - Name: LANGCHAIN_API_KEY
-              ValueFrom: arn:aws:secretsmanager:us-east-1:685057748560:secret:LANGCHAIN_API_KEY
+              ValueFrom: arn:aws:secretsmanager:us-east-1:478565410603:secret:API_KEYS-Ej2k4w
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: /ecs/documentportal
+              awslogs-group: /ecs/document-portal-task
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: ecs
 
