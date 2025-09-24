@@ -32,3 +32,4 @@ search for cloud watch->click on log groups --> check with your running task id 
 skv
 added access keys in github secrets
 again added keys
+CREATED THE SERVICE IN CLUSTER
