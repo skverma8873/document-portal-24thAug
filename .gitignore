@@ -39,3 +39,7 @@ logs/
 dist/
 build/
 document_portal.egg-info/
+
+# Cleanup scripts logs
+cleanup_log*.txt
+cleanup_cache_log*.txt
